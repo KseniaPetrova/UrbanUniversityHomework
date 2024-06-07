@@ -16,11 +16,13 @@
 # вывод расположения камней
 # вывод вторым игроком хода - позицию и кол-во камней
 # вывод расположения камней
+
+
 from nim_engine import put_stones, take_from_a_pile, position_stones, end_game
-from termcolor import cprint
+from termcolor import termcolor
 
 put_stones()
-cprint('Start the game', color='green')
+termcolor.cprint('Start the game', color='green')
 user_number = 1
 while True:
     print('Current position')
@@ -35,7 +37,7 @@ while True:
         else:
             user_number = 1
     else:
-        cprint('An impossible move', color="red")
+        termcolor.cprint('An impossible move', color="red")
         continue
     if end_game():
         break
