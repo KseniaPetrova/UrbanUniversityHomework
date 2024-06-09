@@ -1,6 +1,11 @@
 import tkinter as tk
-def add():
-    pass
+from pprint import pprint
+
+
+def add(number1, number2):
+    return number1 + number2
+
+
 
 def sub():
     pass
@@ -10,7 +15,6 @@ def mul():
 
 def div():
     pass
-
 
 
 window = tk.Tk()

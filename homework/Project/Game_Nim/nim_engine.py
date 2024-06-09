@@ -28,7 +28,8 @@ def put_stones():
 
 
 def take_from_a_pile(position, quantity):
-    if 1 <= position <= len(_holder) and (_holder[position-1] >= quantity and position <= len(_holder)):
+    if (1 <= position <= len(_holder) and
+            (_holder[position-1] >= quantity and position <= len(_holder))):
         _holder[position - 1] -= quantity
         return True
     else:
