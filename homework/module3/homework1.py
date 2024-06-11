@@ -35,7 +35,7 @@ print(result2)
 def single_root_words (root_word, *other_words):
     same_words = []
     for word in other_words:
-        if word != str and type(root_word) != str:
+        if type(word) is not str and type(root_word) is not str:
             print('parameters must be string')
     root_word = root_word.lower()
     for word in other_words:
@@ -44,7 +44,7 @@ def single_root_words (root_word, *other_words):
         for i in other_words:
             if root_word in i or i in root_word:
                 same_words.append(i)
-                break
+
     return same_words
 
 
@@ -86,3 +86,16 @@ print(result2)
 # []
 сначала выполнилась строчку result3 = ... и вывелась в консоль, а потом все принты по порядку
 """
+
+
+"""вариант от учителя"""
+# def single_root_words(root_word, *other_words):
+#     same_words = [] # Список для хранения слов, удовлетворяющих условию
+#     root_word = root_word.lower() # Приведение корневого слова к нижнему регистру
+#
+#     for word in other_words:
+#         word = word.lower() # Приведение текущего слова к нижнему регистру
+#         if root_word in word or word in root_word: # Проверкa условия
+#             same_words.append(word) # Добавление слова в список
+#     return same_words
+

@@ -63,27 +63,27 @@ data_structure = [
 test1 = {'cube': 7, 'drum': 8, 4: [1, 2, 3]}
 
 
-def calculate_structure_sum(*args):
-    sum_list = []
-    for item in args:
-        if isinstance(item, (list, tuple, set)):
-            for sub_item in item:
-                sum_list.append(calculate_structure_sum(sub_item))
-        if isinstance(item, dict):
-            for sub_item in item:
-                sum_list.append(calculate_structure_sum(item.get(sub_item)))  # в конец листа добавляется, полученное(.get) из словаря(item) значение по ключу(sub_item)
-                sum_list.append(calculate_structure_sum(sub_item))
-        if isinstance(item, str):
-            sum_list.append(len(item))
-        if isinstance(item, int):
-            sum_list.append(item)
-    return sum(sum_list)
+# def calculate_structure_sum(*args):
+#     sum_list = []
+#     for item in args:
+#         if isinstance(item, (list, tuple, set)):
+#             for sub_item in item:
+#                 sum_list.append(calculate_structure_sum(sub_item))
+#         if isinstance(item, dict):
+#             for sub_item in item:
+#                 sum_list.append(calculate_structure_sum(item.get(sub_item)))  # в конец листа добавляется, полученное(.get) из словаря(item) значение по ключу(sub_item)
+#                 sum_list.append(calculate_structure_sum(sub_item))
+#         if isinstance(item, str):
+#             sum_list.append(len(item))
+#         if isinstance(item, int):
+#             sum_list.append(item)
+#     return sum(sum_list)
 
 
-res = calculate_structure_sum(data_structure)
-res2 = calculate_structure_sum(test1)
-print(res)
-print(res2)
+# res = calculate_structure_sum(data_structure)
+# res2 = calculate_structure_sum(test1)
+# print(res)
+# print(res2)
 
 '''
 Ниже рассуждения о решении
@@ -153,3 +153,55 @@ print(res2)
 # <class 'tuple'>
 # <class 'str'>
 # <class 'tuple'>
+"""Версия учителя"""
+
+
+# def calculate_structure_sum(data_structure):
+#     total_sum = 0
+#     if isinstance(data_structure, (int, float)):
+#         return data_structure
+#     elif isinstance(data_structure, str):
+#         return len(data_structure)
+#     elif isinstance(data_structure, (list, tuple, set)):
+#         for item in data_structure:
+#             total_sum += calculate_structure_sum(item)
+#     elif isinstance(data_structure, dict):
+#         for key, value in data_structure.items():
+#             total_sum += calculate_structure_sum(key)
+#             total_sum += calculate_structure_sum(value)
+#
+#     return total_sum
+#
+#
+# res = calculate_structure_sum(data_structure)
+# print(res)
+
+"""Еще оди н вариант учителя"""
+def calculate_structure_sum(*args, **kwargs):
+    total_sum = 0
+
+    # Объединяем args и kwargs в один словарь, где ключи - это имена из kwargs, а значения -
+    # это элементы из args
+    # Если kwargs пуст, то все элементы будут в args
+    data_structure = {k: v for k, v in kwargs.items()} if kwargs else list(args)
+
+    for item in data_structure:
+        total_sum += _calculate_sum(item)
+
+    return total_sum
+
+
+def _calculate_sum(item):
+    if isinstance(item, (int, float)):
+        return item
+    elif isinstance(item, str):
+        return len(item)
+    elif isinstance(item, (list, tuple, set)):
+        return sum(_calculate_sum(x) for x in item)
+    elif isinstance(item, dict):
+        return sum(_calculate_sum(k) + _calculate_sum(v) for k, v in item.items())
+# Пример использования функции с *args и **kwargs
+
+
+result = calculate_structure_sum(1, 2, 3, {'a': 4, 'b': 5}, (1, 2, 3), "Hello", {"cube": 7, "drum": 8})
+print(result)  # Выводит 42
