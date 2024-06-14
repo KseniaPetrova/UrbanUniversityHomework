@@ -7,6 +7,7 @@
 Создайте(перегрузите) __eq__, используйте атрибут numberOfFloors и buildingType для сравнения
 Полученный код напишите в ответ к домашнему заданию"""
 
+
 class Building:
 
     def __init__(self, numberOfFloors: int, buildingType: str):
@@ -16,6 +17,7 @@ class Building:
     def __eq__(self, other):
         return (self.numberOfFloors == other.numberOfFloors
                 and self.buildingType == other.buildingType)
+
 
 house1 = Building(7, 'Общага')
 house2 = Building(19, 'Многоэтажка')

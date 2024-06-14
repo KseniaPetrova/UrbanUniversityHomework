@@ -14,5 +14,6 @@
 #     print_hi('PyCharm')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
-import termcolor
-print(dir(termcolor))
+a = []
+a.append(123)
+print(a)

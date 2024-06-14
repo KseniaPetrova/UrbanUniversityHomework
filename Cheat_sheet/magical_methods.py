@@ -62,4 +62,4 @@ persic = Cats(name='Персик', age=12, breed='Без породы', color='�
 
 print(pes < persic)  # работа метода __lt__
 print(pes == persic)  # работа метода __eq__
-print(persic)  # работа метода __str__ иначе <__main__.Cats object at 0x00000217AA41EA20>
+print(persic)  # работа метода __str__ "Персик" иначе <__main__.Cats object at 0x00000217AA41EA20>
