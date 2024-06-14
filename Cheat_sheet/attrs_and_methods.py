@@ -32,13 +32,14 @@ print(robot == robot_2, robot is robot_2)  # False False
 
 
 # Полезные функции для работы с атрибутами
-# hasattr(object, name) - проверка существования
-# setattr(object, name, value) - установка
-# delattr(object, name) - удаление
+# hasattr(object, name) - проверка существования атрибута
+# setattr(object, name, value) - установка атрибута со значением
+# delattr(object, name) - удаление атрибута
 # getattr(object, name, default=None) - получение атрибута
 # name это строка!
 
 attr_name = 'model'
+
 if hasattr(robot, attr_name):
     print(robot.model)
 else:
