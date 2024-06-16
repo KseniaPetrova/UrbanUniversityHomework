@@ -96,6 +96,28 @@ __eq__ и др.
 # import hashlib
 
 
+class User:
+
+    def __init__(self, nickname: str, password: str, age: int):
+        """nickname(ник пользователя, строка, уникальное значение), password(в хэшированном виде, строка),
+        age(возраст, число)"""
+        self.nickname = nickname
+        self.password = password  # hashlib.sha256(password.encode()).hexdigest()
+        self.age = age
+
+
+class Video:
+
+    def __init__(self, title: str, duration: int, adult_mode=False):
+        """title(заголовок, строка), duration(продолжительность, секунды),
+        time_now(секунда остановки (изначально 0)),
+        adult_mode(ограничение по возрасту, bool (False по умолчанию))"""
+        self.title = title
+        self.duration = duration
+        self.time_now = 0
+        self.adult_mode = adult_mode
+
+
 class UrTube:
 
     def __init__(self):
@@ -111,12 +133,11 @@ class UrTube:
         Если такой пользователь существует, то current_user меняется на найденного.
         Помните, что password передаётся в виде строки, а сравнивается по хэшу."""
         for user_in in self.users:
-            if (getattr(user_in, 'nickname') == nickname and
-                    getattr(user_in, 'password') == password):
-                self.current_user = True  # непонятно чему это должно быть ровно
-                return print(f'Добро пожаловать, {nickname}')
-            else:
-                return print(f'Неверный логин или пароль')
+            if getattr(user_in, 'nickname') == nickname and getattr(user_in, 'password') == password:
+                self.current_user = getattr(user_in, 'nickname')  # непонятно чему это должно быть ровно
+                print(f'Добро пожаловать, {nickname}')
+                return
+        print(f'Неверный логин или пароль')
 
     def register(self, nickname: str, password: str, age: int):
         """Метод register, который принимает три аргумента: nickname, password, age, и добавляет
@@ -127,40 +148,45 @@ class UrTube:
             if (getattr(user, 'nickname')) == nickname:
                 print(f'Пользователь {nickname} уже существует')
                 return
-        self.users.append(User(nickname, password, age))
+        new_user = User(nickname, password, age)
+        self.users.append(new_user)
+        self.current_user = new_user.nickname  # непонятно чему это должно быть ровно
         print(f'Пользователь {nickname} успешно зарегистрирован.')
 
+    def log_out(self):
+        """Метод log_out для сброса текущего пользователя на None."""
+        self.current_user = None
+        print('Вы вышли из аккаунта.')
 
-class Video:
+    def add(self, *videos):
+        """Метод add, который принимает неограниченное кол-во объектов класса Video и все добавляет в videos,
+        если с таким же названием видео ещё не существует. В противном случае ничего не происходит."""
+        for video in videos:
+            for v in self.videos:
+                if video.title == v.title:
+                    print(f'Видео с таким именем {video.title} уже существует')
+                elif video.title != v.title:
+                    self.videos.append(video)
+                    print(f'Видео {video.title} добавлено')
 
-    def __init__(self, title: str, duration: int, time_now=0, adult_mode=False):
-        """title(заголовок, строка), duration(продолжительность, секунды),
-        time_now(секунда остановки (изначально 0)),
-        adult_mode(ограничение по возрасту, bool (False по умолчанию))"""
-        self.title = title
-        self.duration = duration
-        self.time_now = time_now
-        self.adult_mode = adult_mode
 
 
-class User:
 
-    def __init__(self, nickname: str, password: str, age: int):
-        """nickname(ник пользователя, строка, уникальное значение), password(в хэшированном виде, строка),
-        age(возраст, число)"""
-        self.nickname = nickname
-        self.password = password  # hashlib.sha256(password.encode()).hexdigest()
-        self.age = age
+
 
 
 if __name__ == '__main__':
     ur = UrTube()
-    user1 = User('Oleg',  '123qwe', 27)
+    user1 = User('oleg',  '123', 27)
     user2 = User('Max',  'qwe', 22)
-    user3 = User('Max',  '321qwe', 25)
+    user3 = User('nina',  '123', 25)
     ur.register(user1.nickname, user1.password, user1.age)
     ur.register(user2.nickname, user2.password, user2.age)
     ur.register(user3.nickname, user3.password, user3.age)
+    video1 = Video('Urban', 3600, False)
+    video2 = Video('Urban 18+', 6600, True)
+    video3 = Video('Urban', 9600, False)
+    ur.add(video1, video2, video3)
     # for user in ur.users:
     #     print(getattr(user, 'nickname'))
     # print(ur.users)
@@ -171,10 +197,15 @@ if __name__ == '__main__':
             ur.log_in(input('Введите логин: '), input('Введите пароль: '))
         elif choice == 2:
             ur.register(input('Введите ник: '), input('Введите пароль:'), int(input('Введите возраст: ')))
-        for user in ur.users:
-            a.append(getattr(user, 'nickname'))
-            a.append(getattr(user, 'password'))
+            for user in ur.users:
+                a.append(getattr(user, 'nickname'))
+                a.append(getattr(user, 'password'))
+        elif choice == 3:
+            break
 
+        # print(ur.__str__())
+        # for i in ur.users:
+        #     print(type(i))
         print(a)
 
 

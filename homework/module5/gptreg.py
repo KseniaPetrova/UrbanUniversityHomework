@@ -72,3 +72,19 @@ class UrTube:
                 print("Конец видео.")
                 return
         print(f"Видео с названием '{title}' не найдено.")
+
+
+if __name__ == '__main__':
+    ur = UrTube()
+    video1 = Video('Urban', 9600)
+    video2 = Video('Urban', 3600)
+    video3 = Video('Urban123', 10600)
+    ur.add(video1, video2, video3)
+    while True:
+        choice = int(input('Вы хотите войти или зарегистрироваться? \n1 - Вход\n2 - Регистрация\n'))
+        if choice == 1:
+            ur.log_in(input('Введите логин: '), input('Введите пароль: '))
+        elif choice == 2:
+            ur.register(input('Введите ник: '), input('Введите пароль:'), int(input('Введите возраст: ')))
+        elif choice == 3:
+            break

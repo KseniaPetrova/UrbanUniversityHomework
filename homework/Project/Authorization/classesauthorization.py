@@ -30,6 +30,8 @@ if __name__ == '__main__':
     database = Database()
     user1 = User('oleg', '123', '123')
     database.add_base(user1.login, user1.password)
+    user2 = User('nina', '123', '123')
+    database.add_base(user2.login, user2.password)
     record = True
     while record:
         choice_entrance = int(input('Выберите действие: \n1 - Вход\n2 - Регистрация\n'))
@@ -38,7 +40,7 @@ if __name__ == '__main__':
             password = input('Введите пароль: ')
             if login in database.data:
                 if password == database.data[login]:
-                    print('Добро пожаловать')
+                    print(f'Добро пожаловать, {login}!')
                     break
                 else:
                     print('Неверный пароль')
