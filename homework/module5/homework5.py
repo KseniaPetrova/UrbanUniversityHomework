@@ -105,6 +105,12 @@ class User:
         self.password = password  # hashlib.sha256(password.encode()).hexdigest()
         self.age = age
 
+    def ageCheck(self):
+        if self.age > 18:
+            return True
+        else:
+            return False
+
 
 class Video:
 
@@ -150,7 +156,7 @@ class UrTube:
                 return
         new_user = User(nickname, password, age)
         self.users.append(new_user)
-        self.current_user = new_user.nickname  # непонятно чему это должно быть ровно
+        self.current_user = new_user.nickname   # непонятно чему это должно быть ровно. Пусть будет имя пользователя
         print(f'Пользователь {nickname} успешно зарегистрирован.')
 
     def log_out(self):
@@ -158,7 +164,10 @@ class UrTube:
         self.current_user = None
         print('Вы вышли из аккаунта.')
 
-    def add(self, *videos):
+    def add(self, *videos):  # Как вообще этот метод принимает videos,
+        # если мы нигде никаким методом не получаем/создаём атрибуты из класса Video,
+        # например как с регистрацией нового юзера было так new_user = User(nickname, password, age).
+        # И как вообще он будет принимать видео. Не текстом же указывать длительность, например.
         """Метод add, который принимает неограниченное кол-во объектов класса Video и все добавляет в videos,
         если с таким же названием видео ещё не существует. В противном случае ничего не происходит."""
         for video in videos:
@@ -171,20 +180,13 @@ class UrTube:
             if found:
                 self.videos.append(video)  # видео должно хранить в себе атрибуты класса Video
                 print(f'Видео {video.title} добавлено')
-        # for video in videos:
-        #     if getattr(video, 'title') not in self.videos:
-        #         self.videos.append(video)
-        #         print(f'Видео добавлено {getattr(video, 'title')}')
-        #     else:
-        #         print(f'Видео с таким именем {getattr(video, 'title')} уже существует')
-
 
     def get_videos(self, keyWords: str):
         """Метод get_videos, который принимает поисковое слово и возвращает список названий всех видео,
         содержащих поисковое слово. Следует учесть, что слово 'UrbaN' присутствует в строке 'Urban the best'
         (не учитывать регистр)."""
         keyWords = keyWords.lower()
-        listVideos = []
+        listVideos = []  # Как лучше выводить видео. Подойдет ли список названий?
         for video in self.videos:
             for word in [getattr(video, 'title'.lower())]:
                 word = word.lower()
@@ -203,11 +205,20 @@ class UrTube:
         Если видео найдено, следует учесть, что пользователю может быть отказано в просмотре, т.к.
         есть ограничения 18+. Должно выводиться сообщение: "Вам нет 18 лет, пожалуйста покиньте страницу"
         После воспроизведения нужно выводить: 'Конец видео'"""
+
         title = title.lower()
         for video in self.videos:
             for word in [getattr(video, 'title')]:
                 word = word.lower()
                 if word in title or title in word:
+                    if self.current_user == None:
+                        print('Войдите в аккаунт, чтобы продолжить')
+                        return
+                    if video.adult_mode == True:  # Не понимаю как достать age из self.users или из класса User
+                        print('Видео доступно к просмотру лицам старше 18 лет')
+                        return
+
+                        pass
 
 
 
@@ -217,11 +228,11 @@ if __name__ == '__main__':
     ur = UrTube()
     user1 = User('oleg',  '123', 27)
     user2 = User('Max',  'qwe', 22)
-    user3 = User('nina',  '123', 25)
+    user3 = User('nina',  '123', 9)
     ur.register(user1.nickname, user1.password, user1.age)
     ur.register(user2.nickname, user2.password, user2.age)
     ur.register(user3.nickname, user3.password, user3.age)
-    video1 = Video('Urban', 3600, False)
+    video1 = Video('Urban', 3600, True)
     video2 = Video('Urban 18+', 6600, True)
     video3 = Video('Urban', 9600, False)
     video4 = Video('Bla bla bla urb ', 9600, False)
@@ -231,6 +242,7 @@ if __name__ == '__main__':
     video8 = Video('Uuuu suka', 9600, False)
     ur.add(video1, video2, video3, video4, video5, video6, video7, video8)
     ur.get_videos('urb')
+    ur.watch_video('urb')
     # for user in ur.users:
     #     print(getattr(user, 'nickname'))
     # print(ur.users)

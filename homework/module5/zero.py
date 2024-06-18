@@ -64,8 +64,10 @@ if __name__ == '__main__':
     ur.register(user2.nickname, user2.login, user2.password, user2.age)
     # for user in ur.users:
     #     print([getattr(user, attr) for attr in ['nickname', 'login', 'password', 'age']])
+
     for user in ur.users:
         print(getattr(user, 'nickname'))
+        print(type(getattr(user, 'age')))
 
     # for user in ur.users:
     #     if getattr(user, 'nickname') == 'Oleg':

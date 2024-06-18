@@ -76,10 +76,17 @@ class UrTube:
 
 if __name__ == '__main__':
     ur = UrTube()
+    # user1 = User('oleg', '123', 27)
+    # user2 = User('Max', 'qwe', 22)
+    user3 = User('nina', '123', 9)
+    # ur.register(user1.nickname, user1.password, user1.age)
+    # ur.register(user2.nickname, user2.password, user2.age)
+    ur.register(user3.nickname, user3.password, user3.age)
     video1 = Video('Urban', 9600)
     video2 = Video('Urban', 3600)
     video3 = Video('Urban123', 10600)
     ur.add(video1, video2, video3)
+    ur.watch_video('Urban')
     while True:
         choice = int(input('Вы хотите войти или зарегистрироваться? \n1 - Вход\n2 - Регистрация\n'))
         if choice == 1:

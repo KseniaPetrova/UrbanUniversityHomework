@@ -60,6 +60,6 @@ class Cats:
 pes = Cats(name='Пёс', age=2, breed='Метис', color='Серый', weight=4.76)
 persic = Cats(name='Персик', age=12, breed='Без породы', color='Рыжий', weight=7.39)
 
-print(pes < persic)  # работа метода __lt__
-print(pes == persic)  # работа метода __eq__
+print(pes < persic)  # работа метода __lt__  True
+print(pes == persic)  # работа метода __eq__ False
 print(persic)  # работа метода __str__ "Персик" иначе <__main__.Cats object at 0x00000217AA41EA20>
