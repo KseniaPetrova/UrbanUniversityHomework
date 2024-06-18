@@ -16,15 +16,15 @@
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 users = []
 videos = [[1, 2, 3], [4, 5, 6],[7, 8, 9]]
-selfVideos = [[987],[321],[321],[1]]
+selfVideos = [[987],[321],[321],[1], [1, 2, 3]]
 
 
 for vidio in videos:
-    for v in selfVideos:
-        if vidio == v:
-            print(f'Видео с таким именем {vidio} уже существует')
-        else:
-            selfVideos.append(vidio)
-            print(f'Видео {vidio} добавлено')
+    if vidio not in selfVideos:
+        selfVideos.append(vidio)
+        print(f'Видео {vidio} добавлено')
+    else:
+        print(f'Видео с таким именем {vidio} уже существует')
+
 
 print(selfVideos)

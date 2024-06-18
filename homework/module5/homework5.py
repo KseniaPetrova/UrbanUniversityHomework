@@ -162,14 +162,52 @@ class UrTube:
         """Метод add, который принимает неограниченное кол-во объектов класса Video и все добавляет в videos,
         если с таким же названием видео ещё не существует. В противном случае ничего не происходит."""
         for video in videos:
+            found = True
             for v in self.videos:
                 if video.title == v.title:
                     print(f'Видео с таким именем {video.title} уже существует')
-                elif video.title != v.title:
-                    self.videos.append(video)
-                    print(f'Видео {video.title} добавлено')
+                    found = False
+                    break
+            if found:
+                self.videos.append(video)  # видео должно хранить в себе атрибуты класса Video
+                print(f'Видео {video.title} добавлено')
+        # for video in videos:
+        #     if getattr(video, 'title') not in self.videos:
+        #         self.videos.append(video)
+        #         print(f'Видео добавлено {getattr(video, 'title')}')
+        #     else:
+        #         print(f'Видео с таким именем {getattr(video, 'title')} уже существует')
 
 
+    def get_videos(self, keyWords: str):
+        """Метод get_videos, который принимает поисковое слово и возвращает список названий всех видео,
+        содержащих поисковое слово. Следует учесть, что слово 'UrbaN' присутствует в строке 'Urban the best'
+        (не учитывать регистр)."""
+        keyWords = keyWords.lower()
+        listVideos = []
+        for video in self.videos:
+            for word in [getattr(video, 'title'.lower())]:
+                word = word.lower()
+                if word in keyWords or keyWords in word:
+                    listVideos.append(getattr(video, 'title'))
+        print(listVideos)
+
+    def watch_video(self, title: str):
+        """Метод watch_video, который принимает название фильма, если не находит точного совпадения(вплоть до пробела),
+        то ничего не воспроизводится, если же находит - ведётся отчёт в консоль на какой секунде ведётся просмотр.
+        После текущее время просмотра данного видео сбрасывается.
+        Для метода watch_video так же учитывайте следующие особенности:
+        Для паузы между выводами секунд воспроизведения можно использовать функцию sleep из модуля time.
+        Воспроизводить видео можно только тогда, когда пользователь вошёл в UrTube. В противном случае
+        выводить в консоль надпись: "Войдите в аккаунт, чтобы смотреть видео"
+        Если видео найдено, следует учесть, что пользователю может быть отказано в просмотре, т.к.
+        есть ограничения 18+. Должно выводиться сообщение: "Вам нет 18 лет, пожалуйста покиньте страницу"
+        После воспроизведения нужно выводить: 'Конец видео'"""
+        title = title.lower()
+        for video in self.videos:
+            for word in [getattr(video, 'title')]:
+                word = word.lower()
+                if word in title or title in word:
 
 
 
@@ -186,7 +224,13 @@ if __name__ == '__main__':
     video1 = Video('Urban', 3600, False)
     video2 = Video('Urban 18+', 6600, True)
     video3 = Video('Urban', 9600, False)
-    ur.add(video1, video2, video3)
+    video4 = Video('Bla bla bla urb ', 9600, False)
+    video5 = Video('Zebra', 9600, False)
+    video6 = Video('Otladchik', 9600, False)
+    video7 = Video('Margo', 9600, False)
+    video8 = Video('Uuuu suka', 9600, False)
+    ur.add(video1, video2, video3, video4, video5, video6, video7, video8)
+    ur.get_videos('urb')
     # for user in ur.users:
     #     print(getattr(user, 'nickname'))
     # print(ur.users)
