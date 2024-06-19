@@ -23,18 +23,19 @@ class UrTube:
     def log_in(self, login, password):
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         for user in self.users:
-            if user.nickname == login and user.password == hashed_password:
+            if getattr(user, 'nickname') == login and getattr(user, 'password') == hashed_password:
                 self.current_user = user
                 print(f"Пользователь {login} вошёл в систему.")
                 return
         print("Неверный логин или пароль.")
 
     def register(self, nickname, password, age):
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         for user in self.users:
             if user.nickname == nickname:
                 print(f"Пользователь {nickname} уже существует.")
                 return
-        new_user = User(nickname, password, age)
+        new_user = User(nickname, hashed_password, age)
         self.users.append(new_user)
         self.current_user = new_user
         print(f"Пользователь {nickname} успешно зарегистрирован.")
@@ -76,12 +77,14 @@ class UrTube:
 
 if __name__ == '__main__':
     ur = UrTube()
-    # user1 = User('oleg', '123', 27)
-    # user2 = User('Max', 'qwe', 22)
+    user1 = User('oleg', '123', 8)
+    user2 = User('Max', 'qwe', 22)
     user3 = User('nina', '123', 9)
-    # ur.register(user1.nickname, user1.password, user1.age)
-    # ur.register(user2.nickname, user2.password, user2.age)
+    ur.register(user1.nickname, user1.password, user1.age)
+    ur.register(user2.nickname, user2.password, user2.age)
     ur.register(user3.nickname, user3.password, user3.age)
+    ur.log_out()
+    ur.log_in('oleg', '123')
     video1 = Video('Urban', 9600)
     video2 = Video('Urban', 3600)
     video3 = Video('Urban123', 10600)

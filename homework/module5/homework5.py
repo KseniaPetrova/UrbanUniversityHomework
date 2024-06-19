@@ -93,6 +93,9 @@ __eq__ и др.
 Чтобы не запутаться рекомендуется после реализации каждого метода проверять как он работает,
 тестировать разные вариации.
 """
+import time
+
+
 # import hashlib
 
 
@@ -132,8 +135,10 @@ class UrTube:
         self.users = []
         self.videos = []
         self.current_user = None
+        self.ageCheck = None
 
-    def log_in(self, nickname: str, password: str):
+    def log_in(self, nickname: str, password: str):   # Есть сомнения, что этот вход не работает должным образом.
+        # Он проверяет логин и пароль, но не подтягивает другие данные такие как возраст
         """Метод log_in, который принимает на вход аргументы: nickname, password
         и пытается найти пользователя в users с такими же логином и паролем.
         Если такой пользователь существует, то current_user меняется на найденного.
@@ -157,6 +162,7 @@ class UrTube:
         new_user = User(nickname, password, age)
         self.users.append(new_user)
         self.current_user = new_user.nickname   # непонятно чему это должно быть ровно. Пусть будет имя пользователя
+        self.ageCheck = age
         print(f'Пользователь {nickname} успешно зарегистрирован.')
 
     def log_out(self):
@@ -207,42 +213,49 @@ class UrTube:
         После воспроизведения нужно выводить: 'Конец видео'"""
 
         title = title.lower()
+        # for video in self.videos:  # такое начало бы подошло чтобы выдавать несколько вариантов по ключевому слову
+        #     for word in [getattr(video, 'title')]:
+        #         word = word.lower()
+        #         if word in title or title in word:
         for video in self.videos:
-            for word in [getattr(video, 'title')]:
-                word = word.lower()
-                if word in title or title in word:
-                    if self.current_user == None:
-                        print('Войдите в аккаунт, чтобы продолжить')
-                        return
-                    if video.adult_mode == True:  # Не понимаю как достать age из self.users или из класса User
-                        print('Видео доступно к просмотру лицам старше 18 лет')
-                        return
-
-                        pass
-
-
-
+            if video.title == title:
+                if self.current_user == None:
+                    print('Войдите в аккаунт, чтобы продолжить')
+                    return
+                if video.adult_mode == True:  # Не понимаю как достать age из self.users
+                    # или из класса User. and self.ageCheck > 18 не работает, потому что оно не обновляется
+                    print('Видео доступно к просмотру лицам старше 18 лет')
+                    return
+                while video.time_now <= video.duration:
+                    print(f"Видео воспроизводится на {video.time_now} секунде.")
+                    video.time_now += 1
+                    time.sleep(1)
+                video.time_now = 0
+                print("Конец видео.")
+                return
 
 
 if __name__ == '__main__':
     ur = UrTube()
-    user1 = User('oleg',  '123', 27)
+    user1 = User('oleg',  '123', 8)
     user2 = User('Max',  'qwe', 22)
     user3 = User('nina',  '123', 9)
     ur.register(user1.nickname, user1.password, user1.age)
     ur.register(user2.nickname, user2.password, user2.age)
     ur.register(user3.nickname, user3.password, user3.age)
-    video1 = Video('Urban', 3600, True)
-    video2 = Video('Urban 18+', 6600, True)
-    video3 = Video('Urban', 9600, False)
-    video4 = Video('Bla bla bla urb ', 9600, False)
-    video5 = Video('Zebra', 9600, False)
-    video6 = Video('Otladchik', 9600, False)
-    video7 = Video('Margo', 9600, False)
-    video8 = Video('Uuuu suka', 9600, False)
+    ur.log_out()
+    ur.log_in('oleg', '123')
+    video1 = Video('Urban', 36, True)
+    video2 = Video('Urban 18+', 66, True)
+    video3 = Video('Urban', 96, False)
+    video4 = Video('Bla bla bla urb ', 96, False)
+    video5 = Video('Zebra', 96, False)
+    video6 = Video('Otladchik', 90, False)
+    video7 = Video('Margo', 60, False)
+    video8 = Video('Uuuu suka', 96, False)
     ur.add(video1, video2, video3, video4, video5, video6, video7, video8)
     ur.get_videos('urb')
-    ur.watch_video('urb')
+    ur.watch_video('Urban')
     # for user in ur.users:
     #     print(getattr(user, 'nickname'))
     # print(ur.users)
