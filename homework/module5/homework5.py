@@ -94,8 +94,6 @@ __eq__ и др.
 тестировать разные вариации.
 """
 import time
-
-
 # import hashlib
 
 
@@ -107,12 +105,6 @@ class User:
         self.nickname = nickname
         self.password = password  # hashlib.sha256(password.encode()).hexdigest()
         self.age = age
-
-    def ageCheck(self):
-        if self.age > 18:
-            return True
-        else:
-            return False
 
 
 class Video:
@@ -135,17 +127,15 @@ class UrTube:
         self.users = []
         self.videos = []
         self.current_user = None
-        self.ageCheck = None
 
-    def log_in(self, nickname: str, password: str):   # Есть сомнения, что этот вход не работает должным образом.
-        # Он проверяет логин и пароль, но не подтягивает другие данные такие как возраст
+    def log_in(self, nickname: str, password: str):
         """Метод log_in, который принимает на вход аргументы: nickname, password
         и пытается найти пользователя в users с такими же логином и паролем.
         Если такой пользователь существует, то current_user меняется на найденного.
         Помните, что password передаётся в виде строки, а сравнивается по хэшу."""
         for user_in in self.users:
             if getattr(user_in, 'nickname') == nickname and getattr(user_in, 'password') == password:
-                self.current_user = getattr(user_in, 'nickname')  # непонятно чему это должно быть ровно
+                self.current_user = user_in
                 print(f'Добро пожаловать, {nickname}')
                 return
         print(f'Неверный логин или пароль')
@@ -161,8 +151,7 @@ class UrTube:
                 return
         new_user = User(nickname, password, age)
         self.users.append(new_user)
-        self.current_user = new_user.nickname   # непонятно чему это должно быть ровно. Пусть будет имя пользователя
-        self.ageCheck = age
+        self.current_user = new_user
         print(f'Пользователь {nickname} успешно зарегистрирован.')
 
     def log_out(self):
@@ -170,13 +159,10 @@ class UrTube:
         self.current_user = None
         print('Вы вышли из аккаунта.')
 
-    def add(self, *videos):  # Как вообще этот метод принимает videos,
-        # если мы нигде никаким методом не получаем/создаём атрибуты из класса Video,
-        # например как с регистрацией нового юзера было так new_user = User(nickname, password, age).
-        # И как вообще он будет принимать видео. Не текстом же указывать длительность, например.
+    def add(self, *videos):
         """Метод add, который принимает неограниченное кол-во объектов класса Video и все добавляет в videos,
         если с таким же названием видео ещё не существует. В противном случае ничего не происходит."""
-        for video in videos:
+        for video in videos:  # Оно работает, но я не понимаю почему.
             found = True
             for v in self.videos:
                 if video.title == v.title:
@@ -184,7 +170,7 @@ class UrTube:
                     found = False
                     break
             if found:
-                self.videos.append(video)  # видео должно хранить в себе атрибуты класса Video
+                self.videos.append(video)
                 print(f'Видео {video.title} добавлено')
 
     def get_videos(self, keyWords: str):
@@ -192,7 +178,7 @@ class UrTube:
         содержащих поисковое слово. Следует учесть, что слово 'UrbaN' присутствует в строке 'Urban the best'
         (не учитывать регистр)."""
         keyWords = keyWords.lower()
-        listVideos = []  # Как лучше выводить видео. Подойдет ли список названий?
+        listVideos = []
         for video in self.videos:
             for word in [getattr(video, 'title'.lower())]:
                 word = word.lower()
@@ -211,8 +197,7 @@ class UrTube:
         Если видео найдено, следует учесть, что пользователю может быть отказано в просмотре, т.к.
         есть ограничения 18+. Должно выводиться сообщение: "Вам нет 18 лет, пожалуйста покиньте страницу"
         После воспроизведения нужно выводить: 'Конец видео'"""
-
-        title = title.lower()
+        # title = title.lower()
         # for video in self.videos:  # такое начало бы подошло чтобы выдавать несколько вариантов по ключевому слову
         #     for word in [getattr(video, 'title')]:
         #         word = word.lower()
@@ -222,8 +207,7 @@ class UrTube:
                 if self.current_user == None:
                     print('Войдите в аккаунт, чтобы продолжить')
                     return
-                if video.adult_mode == True:  # Не понимаю как достать age из self.users
-                    # или из класса User. and self.ageCheck > 18 не работает, потому что оно не обновляется
+                if video.adult_mode == True and getattr(self.current_user, 'age') < 18:
                     print('Видео доступно к просмотру лицам старше 18 лет')
                     return
                 while video.time_now <= video.duration:
@@ -236,45 +220,92 @@ class UrTube:
 
 
 if __name__ == '__main__':
+    # Код для проверки:
     ur = UrTube()
-    user1 = User('oleg',  '123', 8)
-    user2 = User('Max',  'qwe', 22)
-    user3 = User('nina',  '123', 9)
-    ur.register(user1.nickname, user1.password, user1.age)
-    ur.register(user2.nickname, user2.password, user2.age)
-    ur.register(user3.nickname, user3.password, user3.age)
-    ur.log_out()
-    ur.log_in('oleg', '123')
-    video1 = Video('Urban', 36, True)
-    video2 = Video('Urban 18+', 66, True)
-    video3 = Video('Urban', 96, False)
-    video4 = Video('Bla bla bla urb ', 96, False)
-    video5 = Video('Zebra', 96, False)
-    video6 = Video('Otladchik', 90, False)
-    video7 = Video('Margo', 60, False)
-    video8 = Video('Uuuu suka', 96, False)
-    ur.add(video1, video2, video3, video4, video5, video6, video7, video8)
-    ur.get_videos('urb')
-    ur.watch_video('Urban')
-    # for user in ur.users:
-    #     print(getattr(user, 'nickname'))
-    # print(ur.users)
-    while True:
-        a = []
-        choice = int(input('Вы хотите войти или зарегистрироваться? \n1 - Вход\n2 - Регистрация\n'))
-        if choice == 1:
-            ur.log_in(input('Введите логин: '), input('Введите пароль: '))
-        elif choice == 2:
-            ur.register(input('Введите ник: '), input('Введите пароль:'), int(input('Введите возраст: ')))
-            for user in ur.users:
-                a.append(getattr(user, 'nickname'))
-                a.append(getattr(user, 'password'))
-        elif choice == 3:
-            break
+    v1 = Video('Лучший язык программирования 2024 года', 200)
+    v2 = Video('Для чего девушкам парень программист?', 10, adult_mode=True)
 
-        # print(ur.__str__())
-        # for i in ur.users:
-        #     print(type(i))
-        print(a)
+    # Добавление видео
+    ur.add(v1, v2)
+
+    # # Проверка поиска
+    print(ur.get_videos('лучший'))
+    print(ur.get_videos('ПРОГ'))
+    #
+    # # Проверка на вход пользователя и возрастное ограничение
+    ur.watch_video('Для чего девушкам парень программист?')
+    ur.register('vasya_pupkin', 'lolkekcheburek', 13)
+    ur.watch_video('Для чего девушкам парень программист?')
+    ur.register('urban_pythonist', 'iScX4vIJClb9YQavjAgF', 25)
+    # ur.watch_video('Для чего девушкам парень программист?')
+
+    # # Проверка входа в другой аккаунт
+    ur.register('vasya_pupkin', 'F8098FM8fjm9jmi', 55)
+    print(ur.current_user)
+
+    # # Попытка воспроизведения несуществующего видео
+    ur.watch_video('Лучший язык программирования 2024 года!')
+
+    # ur = UrTube()
+    # user1 = User('oleg',  '123', 8)
+    # user2 = User('Max',  'qwe', 22)
+    # user3 = User('nina',  '123', 9)
+    # ur.register(user1.nickname, user1.password, user1.age)
+    # ur.register(user2.nickname, user2.password, user2.age)
+    # ur.register(user3.nickname, user3.password, user3.age)
+    # ur.log_out()
+    # ur.log_in('oleg', '123')
+    # video1 = Video('Urban', 36, True)
+    # video2 = Video('Urban 18+', 66, True)
+    # video3 = Video('Urban', 96, False)
+    # video4 = Video('Bla bla bla urb ', 96, False)
+    # video5 = Video('Zebra', 96, False)
+    # video6 = Video('Otladchik', 90, False)
+    # video7 = Video('Margo', 60, False)
+    # video8 = Video('Uuuu suka', 96, False)
+    # ur.add(video1, video2, video3, video4, video5, video6, video7, video8)
+    # ur.get_videos('urb')
+    # ur.watch_video('Urban')
+    # # for user in ur.users:
+    # #     print(getattr(user, 'nickname'))
+    # # print(ur.users)
+    # while True:
+    #     a = []
+    #     choice = int(input('Вы хотите войти или зарегистрироваться? \n1 - Вход\n2 - Регистрация\n'))
+    #     if choice == 1:
+    #         ur.log_in(input('Введите логин: '), input('Введите пароль: '))
+    #     elif choice == 2:
+    #         ur.register(input('Введите ник: '), input('Введите пароль:'), int(input('Введите возраст: ')))
+    #         for user in ur.users:
+    #             a.append(getattr(user, 'nickname'))
+    #             a.append(getattr(user, 'password'))
+    #     elif choice == 3:
+    #         break
+    #
+    #     # print(ur.__str__())
+    #     # for i in ur.users:
+    #     #     print(type(i))
+    #     print(a)
+
+
+
+    # # Вывод  в консоль:
+    # ['Лучший язык программирования 2024 года']
+    # ['Лучший язык программирования 2024 года', 'Для чего девушкам парень программист?']
+    # Войдите в аккаунт, чтобы смотреть видео
+    # Вам нет 18 лет, пожалуйста покиньте страницу
+    # 1
+    # 2
+    # 3
+    # 4
+    # 5
+    # 6
+    # 7
+    # 8
+    # 9
+    # 10
+    # Конец видео
+    # Пользователь vasya_pupkin уже существует
+    # urban_pythonist
 
 

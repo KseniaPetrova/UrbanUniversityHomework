@@ -55,7 +55,7 @@ class Cats:
         """Диструктор. Удаляет объект из памяти"""
         print(f'{self.name} покинул область памяти')
 
-
+# _str__, __repr__, __contains__
 
 pes = Cats(name='Пёс', age=2, breed='Метис', color='Серый', weight=4.76)
 persic = Cats(name='Персик', age=12, breed='Без породы', color='Рыжий', weight=7.39)
