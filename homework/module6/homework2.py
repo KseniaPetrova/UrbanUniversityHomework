@@ -90,8 +90,8 @@ class Vehicle:
     def set_color(self, new_color: str):  # - принимает аргумент new_color(str), меняет цвет __color на new_color,
         # если он есть в списке __COLOR_VARIANTS, в противном случае выводит на экран
         # надпись: "Нельзя сменить цвет на <новый цвет>"
-        new_color = new_color.lower()
-        if new_color in self._COLOR_VARIANTS:
+
+        if new_color.lower() in self._COLOR_VARIANTS:
             self.__color = new_color
             return
         else:
