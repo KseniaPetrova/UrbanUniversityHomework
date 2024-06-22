@@ -94,7 +94,7 @@ __eq__ и др.
 тестировать разные вариации.
 """
 import time
-# import hashlib
+import hashlib
 
 
 class User:
@@ -103,7 +103,7 @@ class User:
         """nickname(ник пользователя, строка, уникальное значение), password(в хэшированном виде, строка),
         age(возраст, число)"""
         self.nickname = nickname
-        self.password = password  # hashlib.sha256(password.encode()).hexdigest()
+        self.password = hashlib.sha256(password.encode()).hexdigest()
         self.age = age
 
 
@@ -133,8 +133,9 @@ class UrTube:
         и пытается найти пользователя в users с такими же логином и паролем.
         Если такой пользователь существует, то current_user меняется на найденного.
         Помните, что password передаётся в виде строки, а сравнивается по хэшу."""
+        passHash = hashlib.sha256(password.encode()).hexdigest()
         for user_in in self.users:
-            if getattr(user_in, 'nickname') == nickname and getattr(user_in, 'password') == password:
+            if getattr(user_in, 'nickname') == nickname and getattr(user_in, 'password') == passHash:
                 self.current_user = user_in
                 print(f'Добро пожаловать, {nickname}')
                 return
