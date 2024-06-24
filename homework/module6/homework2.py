@@ -46,6 +46,7 @@ II. Класс Sedan наследуется от класса Vehicle, а так
 списка цветов или количеством пассажиров.
 """
 
+
 class Vehicle:
     """
     Атрибут класса __COLOR_VARIANTS, в который записан список допустимых цветов для окрашивания. (Цвета написать свои)
@@ -58,7 +59,7 @@ class Vehicle:
     Метод set_color - принимает аргумент new_color(str), меняет цвет __color на new_color, если он есть
     в списке __COLOR_VARIANTS, в противном случае выводит на экран надпись: "Нельзя сменить цвет на <новый цвет>".
     """
-    _COLOR_VARIANTS = ['red', 'blue', 'white', 'black', 'brown', 'silver']
+    __COLOR_VARIANTS = ['red', 'blue', 'white', 'black', 'brown', 'silver']
     def __init__(self, owner: str, __model: str, __color: str, __engine_power: int):
         """
         Атрибут owner(str) - владелец транспорта. (владелец может меняться)
@@ -91,15 +92,16 @@ class Vehicle:
         # если он есть в списке __COLOR_VARIANTS, в противном случае выводит на экран
         # надпись: "Нельзя сменить цвет на <новый цвет>"
 
-        if new_color.lower() in self._COLOR_VARIANTS:
+        if new_color.lower() in self.__COLOR_VARIANTS:
             self.__color = new_color
             return
         else:
             return print(f'Невозможно покрасить в {new_color}')
 
+
 class Sedan(Vehicle):
     __PASSENGERS_LIMIT = 5  # (в седан может поместиться только 5 пассажиров)
-    pass
+
 
 # Пример результата выполнения программы:
 # Исходный код:
