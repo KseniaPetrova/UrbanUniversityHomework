@@ -185,7 +185,7 @@ class UrTube:
                 word = word.lower()
                 if word in keyWords or keyWords in word:
                     listVideos.append(getattr(video, 'title'))
-        print(listVideos)
+        return listVideos
 
     def watch_video(self, title: str):
         """Метод watch_video, который принимает название фильма, если не находит точного совпадения(вплоть до пробела),

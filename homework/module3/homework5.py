@@ -27,22 +27,27 @@ calls = 0
 
 
 def count_calls():  # подсчитывающая вызовы остальных функций
-    pass
+    global calls
+    return calls
 
 
 def string_info(string: str):  # принимает аргумент - строку и возвращает кортеж из: длины этой строки,
     # строку в верхнем регистре,
     # строку в нижнем регистре
+    global calls
+    calls += 1
     len_str = len(string)
     up_str = string.upper()
     low_str = string.lower()
-    tuple_ = tuple([len_str, up_str, low_str])
-    return print(tuple_)
+    tuple_ = (len_str, up_str, low_str)
+    return tuple_
 
 
 def is_contains(string: str, list_to_search: list):  # принимает два аргумента: строку и список, и
     # возвращает True, если строка находится в этом списке,
     # False - если отсутствует. Регистром строки при проверке пренебречь: UrbaN ~ URBAN.
+    global calls
+    calls += 1
     string = string.lower()
     for item in list_to_search:
         item = item.lower()
@@ -55,3 +60,4 @@ print(string_info('Capybara'))  # (8, 'CAPYBARA', 'capybara')
 print(string_info('Armageddon'))  # (10, 'ARMAGEDDON', 'armageddon')
 print(is_contains('Urban', ['ban', 'BaNaN', 'urBAN']))  # True
 print(is_contains('cycle', ['recycle', 'cyclic']))  # False
+print(count_calls())
