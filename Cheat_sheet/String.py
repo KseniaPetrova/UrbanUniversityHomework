@@ -26,7 +26,7 @@ print(string.lower())  # hello world. how are you?
 print(string.title())  # Hello World. How Are You?
 print(string.capitalize())  # Hello world. how are you?
 print(string.swapcase())  # hELLO WORLD. hOW ARE YOU?
-print(string.count('o', 3, 8))  # 2 | Количество букв "0" с 3 по 8 позицию == 2
+print(string.count('o', 3, 8))  # 2 | Количество букв "0" с 3 по 8 позицию
 print(string.index('w'))  # 6 | Индекс подстроки в строке
 print(string.replace('l', 'x', 2))  # Hexxo world. How are you?
 print(string.isalpha())  # False | строка состоит только из букв

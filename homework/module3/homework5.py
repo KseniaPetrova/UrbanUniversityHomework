@@ -60,4 +60,4 @@ print(string_info('Capybara'))  # (8, 'CAPYBARA', 'capybara')
 print(string_info('Armageddon'))  # (10, 'ARMAGEDDON', 'armageddon')
 print(is_contains('Urban', ['ban', 'BaNaN', 'urBAN']))  # True
 print(is_contains('cycle', ['recycle', 'cyclic']))  # False
-print(count_calls())
+print(count_calls())  # 4
