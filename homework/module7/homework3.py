@@ -44,7 +44,8 @@ def challenge_result(score_1, score_2, team1_time, team2_time):
         return 'Ничья!'
 
 
-print(f'Результат битвы: {challenge_result(score_1=40, score_2=42, team1_time=6, team2_time=6)}!')
+result = challenge_result(score_1=40, score_2=42, team1_time=6, team2_time=6)
+print(f'Результат битвы: {result}!')
 
 """
 Переменные: количество задач (tasks_total) и среднее время решения (time_avg).
