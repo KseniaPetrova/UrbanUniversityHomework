@@ -118,6 +118,11 @@ class Video:
         self.time_now = 0
         self.adult_mode = adult_mode
 
+    def __eq__(self, other):
+        return self.title == other.title
+
+    def __contains__(self, item):
+        return item in self.title
 
 class UrTube:
 
@@ -163,6 +168,10 @@ class UrTube:
     def add(self, *videos):
         """Метод add, который принимает неограниченное кол-во объектов класса Video и все добавляет в videos,
         если с таким же названием видео ещё не существует. В противном случае ничего не происходит."""
+        for movie in videos:
+            if movie not in self.videos:
+                self.videos.append(movie)
+
         for video in videos:  # Оно работает, но я не понимаю почему.
             found = True
             for v in self.videos:
