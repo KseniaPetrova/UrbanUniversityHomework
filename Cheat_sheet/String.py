@@ -20,6 +20,7 @@ print(string[6:-3])  # world. How are y
 print(string[:-1])  # Hello world. How are you
 print(string[::2])  # Hlowrd o r o?
 print(string[::-1])  # ?uoy era woH .dlrow olleH
+print(string[-1:0:-1])  # ?uoy era woH .dlrow olle
 """Методы"""
 print(string.upper())  # HELLO WORLD. HOW ARE YOU?
 print(string.lower())  # hello world. how are you?
