@@ -168,9 +168,9 @@ class UrTube:
     def add(self, *videos):
         """Метод add, который принимает неограниченное кол-во объектов класса Video и все добавляет в videos,
         если с таким же названием видео ещё не существует. В противном случае ничего не происходит."""
-        for movie in videos:
-            if movie not in self.videos:
-                self.videos.append(movie)
+        # for movie in videos:
+        #     if movie not in self.videos:
+        #         self.videos.append(movie)
 
         for video in videos:  # Оно работает, но я не понимаю почему.
             found = True
