@@ -15,3 +15,6 @@
 
 print(a)
 
+a = {1: 'one', 3: 'three', 2: 'two', '4': 'four'}
+
+

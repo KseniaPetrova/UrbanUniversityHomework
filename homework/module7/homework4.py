@@ -13,7 +13,7 @@ directory = 'C:\\Users\\Admin\\Desktop\\стикеры'
 
 for root, dirs, files in os.walk(directory):  # обхода каталога directory
     print('-' * 25)
-    print(root, dirs, files)
+    print(f'{root=}, {dirs=}, {files=}')  # root='C:\\Users\\Admin\\Desktop\\стикеры'
     print('↓' * 25)
     for file in files:
         full_file_path = os.path.join(root, file)  # формирование полного пути к файлам

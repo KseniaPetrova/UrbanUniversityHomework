@@ -50,4 +50,4 @@ for i in range(0, len(marix)):
         if i + j == (len(marix) - 1):
             sum_ += marix[i][j]
             break
-print(sum_)  # 13
+print(sum_)  # 16
