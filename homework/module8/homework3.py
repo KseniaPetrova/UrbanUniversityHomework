@@ -58,12 +58,12 @@ class Car:
 
 
 class IncorrectVinNumber(Exception):  # чтобы работать, как исключение, надо от него унаследоваться
-    def __init__(self, message):
+    def __init__(self, message: str):
         self.message = message
 
 
 class IncorrectCarNumbers(Exception):
-    def __init__(self, message):
+    def __init__(self, message: str):
         self.message = message
 
 
