@@ -73,10 +73,10 @@ import math
 
 
 class Figure:
-    sides_count = 0  # количество сторон
+    sides_count = 0
 
     def __init__(self, color, sides, filled=False):
-        self.__color = list(color)  # (список цветов в формате RGB)
+        self.__color = list(color)
         if self.__is_valid_sides(*sides):
             if isinstance(self, Cube):
                 self.__sides = list(sides) * self.sides_count
@@ -86,30 +86,21 @@ class Figure:
             self.__sides = [1] * self.sides_count
         self.filled = filled  # (закрашенный, bool)
 
-    def get_color(self):  # возвращает список RGB цветов
+    def get_color(self):
         return self.__color
 
     def __is_valid_color(self, r, g, b):
-        """Метод __is_valid_color - служебный, принимает параметры r, g, b, который проверяет
-        корректность переданных значений перед установкой нового цвета.
-        Корректным цвет: все значения r, g и b - целые числа в диапазоне
-        от 0 до 255 (включительно)."""
         for color in [r, g, b]:
-            if not isinstance(color, int) and 0 <= color <= 255:
+            if isinstance(color, int) and 0 <= color <= 255:
+                return True
+            else:
                 return False
-        return True
 
     def set_color(self, r, g, b):
-        """Метод set_color принимает параметры r, g, b - числа и изменяет атрибут __color
-        на соответствующие значения, предварительно проверив их на корректность.
-        Если введены некорректные данные, то цвет остаётся прежним. """
         if self.__is_valid_color(r, g, b):
             self.__color = [r, g, b]
 
     def __is_valid_sides(self, *sides):  # принимает картеж
-        """Метод __is_valid_sides - служебный, принимает неограниченное кол-во сторон,
-        возвращает True если все стороны целые положительные числа и кол-во новых сторон
-        совпадает с текущим, False - во всех остальных случаях. """
         if isinstance(self, Cube):
             cond_1 = len(sides) == 1
         else:
@@ -117,11 +108,11 @@ class Figure:
         cond_2 = all([isinstance(side, int) and side > 0 for side in sides])
         return cond_1 and cond_2  # True and True или False and False
 
-    def get_sides(self):  # должен возвращать значение я атрибута __sides
+    def get_sides(self):
         return self.__sides
 
     def __len__(self):
-        return sum(self.__sides)  # должен возвращать периметр фигуры (сума длин всех сторон)
+        return sum(self.__sides)
 
     def set_sides(self, *new_sides):
         if self.__is_valid_sides(*new_sides):
@@ -136,22 +127,25 @@ class Circle(Figure):
 
     def __init__(self, color: tuple, *sides):
         super().__init__(color, sides)
-        self.__radius = self.__len__() / (2 * math.pi)
+        self.__radius = self.get_radius()
 
     def get_square(self):  # возвращает площадь круга через длину окружности
         return (self.__len__() ** 2) / (4 * math.pi)
 
     def get_radius(self):
+        self.__radius = self.__len__() / (2 * math.pi)
         return self.__radius
 
 
 class Triangle(Figure):
     sides_count = 3
 
-# дописать что тут должна сумма двух сторон быть больше длины другой
     def __init__(self, color: tuple, *sides):
-        super().__init__(color, sides)
-        self.__height = self.get_height_triangle(sides[0], sides[1], sides[2])
+        if self.__is_triangle_exists(*sides):
+            super().__init__(color, sides)
+            self.__height = self.get_height_triangle(sides[0], sides[1], sides[2])
+        else:
+            raise ValueError("Невозможно создать треугольник с указанными сторонами")
 
     def get_height_triangle(self, a, b, c):
         p = (a + b + c) / 2
@@ -162,6 +156,12 @@ class Triangle(Figure):
         p = (a + b + c) / 2
         square = math.sqrt(p * (p - a) * (p - b) * (p - c))
 
+    def __is_triangle_exists(self, a, b, c):
+        if a + b > c and b + c > a and a + c > b:
+            return True
+        else:
+            return False
+
 
 class Cube(Figure):
     sides_count = 12
@@ -171,36 +171,34 @@ class Cube(Figure):
 
 
     def get_volume(self):
-        volume = self.__sides[1] ** 3
+        volume = self.get_sides()[0] ** 3
         return volume
 
 
-# не меняет площадь и радиус при смене стороны
 
-"""
-Код для проверки:"""
+""" Код для проверки: """
 circle1 = Circle((200, 200, 100), 10)  # (Цвет, стороны)
 cube1 = Cube((222, 35, 130), 6)
 
-
-# Проверка на изменение цветов:
+print("# Проверка на изменение цветов:")
 circle1.set_color(55, 66, 77)  # Изменится
 cube1.set_color(300, 70, 15)  # Не изменится
-print(circle1.get_color())
-print(cube1.get_color())
-print('\n' * 2)
+print("Круг с цветами 55 66 77 - ", circle1.get_color())
+print("Куб с цветами 222, 35, 130 - ", cube1.get_color())
+print('\n')
 
-# Проверка на изменение сторон:
+print("# Проверка на изменение сторон:")
 cube1.set_sides(5, 3, 12, 4, 5)  # Не изменится
 circle1.set_sides(15) # Изменится
-print(cube1.get_sides())
-print(circle1.get_sides())
-print('\n' * 2)
+print("Сторона куба 6 - ", cube1.get_sides())
+print("Сторона круга 15 - ", circle1.get_sides())
+print('\n')
 
-# Проверка периметра (круга), это и есть длина:
-print(len(circle1))
-print('\n' * 2)
+print("# Проверка периметра (круга)")
+print("Периметр круга 15 - ", len(circle1))
+print('\n')
 
-# Проверка объёма (куба):
-print(cube1.get_volume())
+print('# Проверка объёма (куба):')
+print("Объем куба - ", cube1.get_volume())
+
 
