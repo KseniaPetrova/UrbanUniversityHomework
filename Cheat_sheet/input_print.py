@@ -16,3 +16,15 @@
 # print('Меня зовут %(name)s мне %(old)s' % {'name': 'Денис', 'old': 14})
 # print('Меня зовут {1} мне {0}'.format('Денис', '14'))
 # print('Меня зовут {name} мне {old}'.format(name='Денис', old='14'))
+#----------------
+# Использование _ в синтаксисе
+# stats: list[str] = ['Bob', 'Programmer', '27']
+# name, _, age = stats
+# print(name)  # Bob
+# print(age)  # 27
+# print(_)  # Programmer. переменная _ подразумевает, что ее не будут использовать
+#
+# values: list[int] = [1, 4, 6, 7, 3, 87,]
+# first, *_, last = values  # переменная _ сохранит в себе список промежуточных символов
+# print(first, last, sep=', ')  # 1, 87
+# print(_)  # [4, 6, 7, 3]
