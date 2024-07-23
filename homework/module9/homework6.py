@@ -15,7 +15,7 @@ def all_variants(text: str):
             yield text[start:start + length]  # [0:1],[1:2],[2:3] | [0:2],[1:3] | [0:3]
 
 
-a = all_variants("abc")
+a: all_variants = all_variants("abc")
 for i in a:
     print(i)
 
