@@ -1,6 +1,6 @@
-def my_function():
-    for i in range(1, 5):
-        print(i)
-        return i
+import sympy
 
-print(my_function())
+def is_prime(n):
+    return sympy.isprime(n)
+
+print(is_prime(9))

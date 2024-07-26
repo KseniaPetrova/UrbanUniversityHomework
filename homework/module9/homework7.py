@@ -13,13 +13,12 @@
 def is_prime(func):
     def wrapper(*args):
         result = func(*args)
-        if result == 2:
-            return f'Простое\n{result}'
-        for i in range(2, int(result ** 0.5) + 2):
+        if result in [2, 3]:
+            return f'Простое - {result}'
+        for i in range(2, int(result ** 0.5) + 1):
             if result % i == 0:
-                return f'Составное\n{result}'
-            else:
-                return f'Простое\n{result}'
+                return f'Составное - {result}'
+        return f'Простое - {result}'
     return wrapper
 
 @is_prime
