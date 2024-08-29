@@ -36,21 +36,28 @@ Cafe - кафе, в котором есть определённое кол-во
 обслуживания (discuss_guests).
 """
 
-import queue
+import random
+import threading
 import time
-from threading import Thread
-from random import randint
+import queue
+
 
 class Table:
-
-    def __init__(self, number: int, guest: str=None):
+    def __init__(self, number):
         self.number = number
-        self.guest  = guest
+        self.guest = None
 
+class Guest(threading.Thread):
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+
+    def run(self):
+        wait_time = random.randint(3, 10)
+        time.sleep(wait_time)
 
 class Cafe:
-
-    def __init__(self, tables: list):
+    def __init__(self, *tables):
         self.queue = queue.Queue()
         self.tables = list(tables)
 
@@ -58,71 +65,48 @@ class Cafe:
         for guest in guests:
             for table in self.tables:
                 if table.guest is None:
-                    print(f'{guest.name} сел(-а) за стол номер {table.number}')
                     table.guest = guest
-                    #запускать поток гостя
-                    thd_guest_name: Guest = Guest(guest.name)
-                    thd_guest_name.start()
-                else:
-                    self.queue.put(guest)
-                    print(f'{guest.name} в очереди')
+                    guest.start()
+                    print(f"{guest.name} сел(-а) за стол номер {table.number}")
+                    break
+            else:
+                self.queue.put(guest)
+                print(f"{guest.name} в очереди")
 
     def discuss_guests(self):
-        while self.queue or any(table.guest is not None for table in self.tables):
+        while not self.queue.empty() or any(table.guest is not None for table in self.tables):
+            for table in self.tables:
+                if table.guest is not None and not table.guest.is_alive():
+                    print(f"{table.guest.name} покушал(-а) и ушёл(ушла)")
+                    print(f"Стол номер {table.number} свободен")
+                    table.guest = None
+                    if not self.queue.empty():
+                        guest = self.queue.get()
+                        table.guest = guest
+                        guest.start()
+                        print(f"{guest.name} вышел(-ла) из очереди и сел(-а) за стол номер {table.number}")
+            time.sleep(1)
 
-
-        self.visitor = self.queue.get()
-        for tabel in self.tables:
-            if tabel.is_busy is False:
-                tabel.is_busy = True
-                print(f'Посетитель номер {self.visitor} сел за стол {tabel.number}. (начало обслуживания)')
-                time.sleep(5)
-                tabel.is_busy = False
-                print(f'Посетитель номер {self.visitor} покушал и ушёл. (конец обслуживания)')
-                return
-        self.queue.put(self.visitor)
-        print(f'Посетитель номер {self.visitor} ожидает свободный стол. (помещение в очередь)')
-
-
-
-class Guest(Thread):
-    def __init__(self, name: str):
-        super().__init__()
-        self.name = name
-
-    def run(self):
-        wait_time = randint(3, 10)
-        time.sleep(wait_time)
-
-# Создаем столики в кафе
 # Создание столов
 tables = [Table(number) for number in range(1, 6)]
+
 # Имена гостей
 guests_names = [
-'Maria', 'Oleg', 'Vakhtang', 'Sergey', 'Darya', 'Arman',
-'Vitoria', 'Nikita', 'Galina', 'Pavel', 'Ilya', 'Alexandra'
+    'Maria', 'Oleg', 'Vakhtang', 'Sergey', 'Darya', 'Arman',
+    'Vitoria', 'Nikita', 'Galina', 'Pavel', 'Ilya', 'Alexandra'
 ]
+
 # Создание гостей
 guests = [Guest(name) for name in guests_names]
+
 # Заполнение кафе столами
 cafe = Cafe(*tables)
+
 # Приём гостей
 cafe.guest_arrival(*guests)
+
 # Обслуживание гостей
 cafe.discuss_guests()
-
-#
-# customer_arrival_thread = Thread(target=cafe.customer_arrival)
-# serve_customer_thread = Thread(target=cafe.serve_customer)
-#
-# customer_arrival_thread.start()
-# serve_customer_thread.start()
-#
-# customer_arrival_thread.join()
-# serve_customer_thread.join()
-
-
-
 
 
 
