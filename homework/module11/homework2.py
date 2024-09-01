@@ -12,9 +12,6 @@ def introspection_info(obj):
     print('Тип объекта', type(obj))
     if not isinstance(obj,(str,int,float)):
         print('Модуль', obj.__module__)
-    print('Список доступных атрибутов и методов', dir(obj))
-    # print('Документация объекта', help(obj))
-    print('ID', id(obj))
     dunder_methods = []
     methods = []
     for method in dir(obj):
@@ -26,9 +23,13 @@ def introspection_info(obj):
     print('Методы', methods)
     if not inspect.isbuiltin(obj) and not isinstance(obj, (str,int,float,bool)):
         print('Атрибуты', obj.__dict__)
+    # print('Список доступных атрибутов и методов', dir(obj))
+    # print('Документация объекта', help(obj))
+    print('ID', id(obj))
     print()
 
 def sum_three(a:int, b:int, c:int) -> int:
+    sum_three.x = '23'
     return a + b + c
 class new_class:
     pi = 3.14
@@ -38,12 +39,14 @@ class new_class:
 
 
 a: new_class = new_class(8)
-introspection_info("72")
+sum_three(1,2,3)
 introspection_info(sum_three)
+introspection_info("72")
 introspection_info(True)
 introspection_info(new_class)
-introspection_info(a)
 introspection_info(sum)
+introspection_info(a)
+
 
 
 
