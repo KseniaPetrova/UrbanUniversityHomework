@@ -10,10 +10,10 @@ def introspection_info(obj):
     elif callable(getattr(obj,'__class__')):
         print('Объект является объектом класса')
     print('Тип объекта', type(obj))
-    print('Список доступных атрибутов и методов', dir(obj))
-    # print('Документация объекта', help(obj))
     if not isinstance(obj,(str,int,float)):
         print('Модуль', obj.__module__)
+    print('Список доступных атрибутов и методов', dir(obj))
+    # print('Документация объекта', help(obj))
     print('ID', id(obj))
     dunder_methods = []
     methods = []
@@ -24,11 +24,14 @@ def introspection_info(obj):
             methods.append(method)
     print('Магические методы', dunder_methods)
     print('Методы', methods)
+    if not inspect.isbuiltin(obj) and not isinstance(obj, (str,int,float,bool)):
+        print('Атрибуты', obj.__dict__)
     print()
 
-def sum_three(a, b, c):
+def sum_three(a:int, b:int, c:int) -> int:
     return a + b + c
 class new_class:
+    pi = 3.14
     def __init__(self, number):
         self.multi = int(number) * 2
         self.string = str(number)
@@ -40,6 +43,7 @@ introspection_info(sum_three)
 introspection_info(True)
 introspection_info(new_class)
 introspection_info(a)
+introspection_info(sum)
 
 
 
