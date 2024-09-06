@@ -34,6 +34,7 @@ tearDownClass - метод, где выводятся all_results по очер�
 Попробуйте решить эту проблему и обложить дополнительными тестами.
 """
 import unittest
+from suite_12_3 import skip_if_frozen
 
 class Runner:
     def __init__(self, name, speed=5):
@@ -77,6 +78,7 @@ class Tournament:
 
 
 class TournamentTest(unittest.TestCase):
+    is_frozen = False
     @classmethod
     def setUpClass(cls):
         cls.all_results = {}
@@ -103,10 +105,11 @@ class TournamentTest(unittest.TestCase):
         self.all_results["Andrey and Nick"] = tournament.start()
         self.assertTrue(self.all_results["Andrey and Nick"][max(self.all_results["Andrey and Nick"].keys())] == "Ник")
 
+    @skip_if_frozen
     def test_UsainAndreyNick(self):
         tournament = Tournament(90, self.run1, self.run2, self.run3)
         self.all_results["Usain, Andrey and Nick"] = tournament.start()
-        self.assertTrue(self.all_results["Usain, Andrey and Nick"][max(self.all_results["Usain, Andrey and Nick"].keys())] == "Ник")
+        self.assertTrue(self.all_results["Usain, Andrey and Nick"][max(self.all_results["Usain, Andrey and Nick"].keys())] == "Ник ")
 
 
 if __name__ == '__main__':
