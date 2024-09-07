@@ -17,21 +17,24 @@ import unittest
 from homework2 import TournamentTest
 from homework1 import RunnerTest
 
-runST = unittest.TestSuite
-runST.addTest(unittest.TestLoader().loadTestsFromTestCase(TournamentTest))
-runST.addTest(unittest.TestLoader().loadTestsFromTestCase(RunnerTest))
-
-
-runner = unittest.TextTestRunner(verbosity=2)
-runner.run(runST)
-
-
 def skip_if_frozen(func):
     def wrapper(self, *args, **kwargs):
         if self.is_frozen:
             self.skipTest('Тесты в этом кейсе заморожены')
         return func(self, *args, **kwargs)
     return wrapper
+
+
+if __name__ == "__main__":
+
+    runST = unittest.TestSuite
+    runST.addTest(unittest.TestLoader().loadTestsFromTestCase(TournamentTest))
+    runST.addTest(unittest.TestLoader().loadTestsFromTestCase(RunnerTest))
+
+
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(runST)
+
 
 
 

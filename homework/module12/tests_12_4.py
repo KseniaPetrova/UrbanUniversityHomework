@@ -26,6 +26,8 @@ test_run:
 import logging
 import unittest
 
+logging.basicConfig(level=logging.INFO, filemode='w', filename='runner_tests.log',
+                    encoding='utf8', format='%(asctime)s | %(levelname)s | %(message)s')
 
 class Runner:
     def __init__(self, name, speed=5):
@@ -43,12 +45,7 @@ class Runner:
         self.distance += self.speed * 2
 
     def walk(self):
-        try:
-            if self.speed > 0:
-                logging.info(f'"test_walk" выполнен успешно')
-                self.distance += self.speed
-        except:
-            logging.warning('Неверная скорость для Runner')
+        self.distance += self.speed
 
     def __str__(self):
         return self.name
@@ -82,30 +79,33 @@ class Tournament:
         return finishers
 
 class RunnerTest(unittest.TestCase):
+
     def test_walk(self):
-        testRunnerWalk = Runner('Test walk')
-        for _ in range(10):
-            testRunnerWalk.walk()
-        self.assertEqual(testRunnerWalk.distance, 50)
+        try:
+            testRunnerWalk = Runner('Test walk', -5)
+            for _ in range(10):
+                testRunnerWalk.walk()
+            self.assertEqual(testRunnerWalk.distance, 50)
+            logging.info('"test_walk" выполнен успешно')
+        except ValueError as e:
+            logging.warning("Неверная скорость для Runner")
+            raise e
 
     def test_run(self):
-        testRunnerRun = Runner('Test run')
-        for _ in range(10):
-            testRunnerRun.run()
-        self.assertEqual(testRunnerRun.distance, 100)
+        try:
+            testRunnerRun = Runner(6, 6)
+            for _ in range(10):
+                testRunnerRun.run()
+            self.assertEqual(testRunnerRun.distance, 120)
+            logging.info('"test_run" выполнен успешно')
+        except TypeError as e:
+            logging.warning("Hеверный тип данных для объекта Runner")
+            raise e
 
 
-# first = Runner('Вося', 10)
-# second = Runner('Илья', 5)
-# # third = Runner('Арсен', 10)
-#
-# t = Tournament(101, first, second)
-# print(t.start())
 
-if __name__ == "__main__":
-    testRun: Runner = Runner('Leha', -5)
-    logging.basicConfig(level=logging.INFO, filemode='w', filename='runner_tests.log',
-                        encoding='utf8', format='%(asctime)s | %(levelname)s | %(message)s')
+
+
 
 
 
