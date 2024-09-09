@@ -14,7 +14,7 @@
 """
 
 import unittest
-from homework2 import TournamentTest
+from test_homework2 import TestTournament
 from homework1 import RunnerTest
 
 def skip_if_frozen(func):
@@ -28,7 +28,7 @@ def skip_if_frozen(func):
 if __name__ == "__main__":
 
     runST = unittest.TestSuite
-    runST.addTest(unittest.TestLoader().loadTestsFromTestCase(TournamentTest))
+    runST.addTest(unittest.TestLoader().loadTestsFromTestCase(TestTournament))
     runST.addTest(unittest.TestLoader().loadTestsFromTestCase(RunnerTest))
 
 
