@@ -77,7 +77,7 @@ class Tournament:
         return finishers
 
 
-class TestTournament(unittest.TestCase):
+class TournamentTest(unittest.TestCase):
     is_frozen = False
     @classmethod
     def setUpClass(cls):
