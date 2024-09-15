@@ -3,15 +3,16 @@ import inspect
 
 
 def introspection_info(obj):
+    info = {}
     if isinstance(obj, (str, int, float, type)):
-        print('Объект', obj)
+        info['Объект'] = obj
     elif inspect.isfunction(obj):
-        print('Имя объекта', obj.__name__)
-    elif callable(getattr(obj,'__class__')):
-        print('Объект является объектом класса')
-    print('Тип объекта', type(obj))
+        info['Имя объекта'] = obj.__name__
+    # elif callable(getattr(obj,'__class__')):
+    #     print('Объект является объектом класса')
+    info['Тип объекта'] = type(obj)
     if not isinstance(obj,(str,int,float)):
-        print('Модуль', obj.__module__)
+        info['Модуль'] = obj.__module__
     dunder_methods = []
     methods = []
     for method in dir(obj):
@@ -19,14 +20,15 @@ def introspection_info(obj):
             dunder_methods.append(method)
         elif callable(getattr(obj, method)) and not method.startswith("__") and not method.endswith("__"):
             methods.append(method)
-    print('Магические методы', dunder_methods)
-    print('Методы', methods)
+    info['Магические методы'] = dunder_methods
+    info['Методы'] = methods
     if not inspect.isbuiltin(obj) and not isinstance(obj, (str,int,float,bool)):
-        print('Атрибуты', obj.__dict__)
+        info['Атрибуты'] = obj.__dict__
     # print('Список доступных атрибутов и методов', dir(obj))
     # print('Документация объекта', help(obj))
-    print('ID', id(obj))
-    print()
+    info['ID'] = id(obj)
+    return info
+
 
 def sum_three(a:int, b:int, c:int) -> int:
     sum_three.x = '23'
@@ -40,12 +42,19 @@ class new_class:
 
 a: new_class = new_class(8)
 sum_three(1,2,3)
-introspection_info(sum_three)
-introspection_info("72")
-introspection_info(True)
-introspection_info(new_class)
-introspection_info(sum)
-introspection_info(a)
+info_func = introspection_info(sum_three)
+info_str = introspection_info("72")
+info_bool = introspection_info(True)
+info_class = introspection_info(new_class)
+info_buit = introspection_info(sum)
+info_obj_class = introspection_info(a)
+
+print(info_func)
+print(info_str)
+print(info_bool)
+print(info_class)
+print(info_buit)
+print(info_obj_class)
 
 
 
