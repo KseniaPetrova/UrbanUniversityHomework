@@ -52,6 +52,28 @@ cursor.execute("CREATE INDEX IF NOT EXISTS idx_email ON UsersTable (email)")
 # for user in users:
 #     print(user)
 
+# Подсчитает количество юзеров
+# cursor.execute("SELECT COUNT(*) FROM UsersTable")
+# total1 = cursor.fetchone()[0]  # позволяет получить элемент запроса
+# print(total1)
+
+# Подсчитает количество юзеров где возраст больше 30
+cursor.execute("SELECT COUNT(*) FROM UsersTable WHERE age > ?", (30,))
+total1 = cursor.fetchone()[0]  # позволяет получить элемент запроса
+print(total1)
+
+# Посчитает сумму возрастов
+cursor.execute("SELECT SUM(age) FROM UsersTable")
+total1 = cursor.fetchone()[0]  # позволяет получить элемент запроса
+print(total1)
+
+# Вычислит минимальный возраст. с функцийе MAX вычислит маскимальный возраст
+cursor.execute("SELECT MIN(age) FROM UsersTable")
+total1 = cursor.fetchone()[0]  # позволяет получить элемент запроса
+print(total1)
+
+
+
 
 
 connection.commit()  # сохранение текущего состояния
