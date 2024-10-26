@@ -1,30 +1,21 @@
-# This is a sample Python script.
+from fastapi import FastAPI
+app = FastAPI()
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+@app.get("/")
+async def get_main_page() -> str:
+    return "Главная страница"
 
+@app.get("/user/admin")
+async def get_admin_page() -> str:
+    return "Вы вошли как администратор"
 
-# def print_hi(name):
-#     # Use a breakpoint in the code line below to debug your script.
-#     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-#
-#
-# # Press the green button in the gutter to run the script.
-# if __name__ == '__main__':
-#     print_hi('PyCharm')
+@app.get("/user/{user_id}")
+async def get_user_id(user_id: int) -> str:
+    return f'Вы вошли как пользователь № {user_id}'
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-users = []
-videos = [[1, 2, 3], [4, 5, 6],[7, 8, 9]]
-selfVideos = [[987],[321],[321],[1], [1, 2, 3]]
-
-
-for vidio in videos:
-    if vidio not in selfVideos:
-        selfVideos.append(vidio)
-        print(f'Видео {vidio} добавлено')
-    else:
-        print(f'Видео с таким именем {vidio} уже существует')
+@app.get("/user")
+async def get_info_user(username: str, age: int) -> str:
+    return f'Информация о пользователе. Имя: {username}, Возраст: {age}'
 
 
-print(selfVideos)
+# Запуск сервера python3 -m uvicorn main:app
