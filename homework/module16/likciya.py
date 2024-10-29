@@ -58,6 +58,11 @@ app = FastAPI()
 #     return "All messages deleted"
 
 #--------------------------------------------
+from fastapi import Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
+templates = Jinja2Templates(directory="templates")
 
 msg_db = []
 
@@ -66,21 +71,30 @@ class Msg(BaseModel):
     text: str
 
 @app.get("/")
-def get_all_msg() -> List[Msg]:
-    return msg_db
+def get_all_msg(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse("message.html",
+                                      {'request': request,
+                                       'messages': msg_db})
 
 @app.get(path='/msg/{msg_id}')
-def get_msg(msg_id: int) -> Msg:
+def get_msg(request: Request, msg_id: int) -> HTMLResponse:
     try:
-        return msg_db[msg_id]
+        return templates.TemplateResponse("message.html",
+                                      {'request': request,
+                                       'messages': msg_db[msg_id]})
     except IndexError:
         raise HTTPException(status_code=404, detail="Message not found")
 
-@app.post('/msg')
-def create_msg(msg: Msg) -> str:
-    msg.id = len(msg_db)
-    msg_db.append(msg)
-    return f'Message created'
+@app.post('/')
+def create_msg(request: Request, msg: str = Form()) -> HTMLResponse:
+    if msg_db:
+        msg_id = max(msg_db, key=lambda m: m.id).id +1
+    else:
+        msg_id = 0
+    msg_db.append(Msg(id=msg_id, test = msg))
+    return templates.TemplateResponse("message.html",
+                                      {'request': request,
+                                       'messages': msg_db})
 
 @app.put('/msg/{msg_id}')
 def update_msg(msg_id: int, msg: str = Body()) -> str:
