@@ -6,8 +6,10 @@
 # Запуск сервера python3 - m uvicorn main:app
 # адрес строки документации 127.0.0.1:8000/docs
 
-from fastapi import FastAPI, Path
+from fastapi import FastAPI, Path, status, Body, HTTPException
 from typing import Annotated
+from typing import List
+from pydantic import BaseModel
 app = FastAPI()
 
 # @app.get("/")
@@ -24,40 +26,83 @@ app = FastAPI()
 
 #--------------------------------------------
 
-massages_db = {"0": "First post in FastApi"}
+# massages_db = {"0": "First post in FastApi"}
+#
+# @app.get("/")
+# async def get_all_msg() -> dict:
+#     return massages_db
+#
+# @app.get("msg/{msg_id}") #
+# async def get_msg(msg_id: str) -> dict:
+#     return massages_db[msg_id]
+#
+# @app.post('msg')
+# async def create_msg(msg: str) -> str:
+#     current_index = str(int(max(massages_db, key=int)) +1 )
+#     massages_db[current_index] = msg
+#     return 'Massage created!'
+#
+# @app.put('msg/{msg_id}')
+# async def update_msg(msg_id: str, msg: str) -> str:
+#     massages_db[msg_id] = msg
+#     return 'Massage update'
+#
+# @app.delete('/msg/{msg_id}')
+# async def delete_msg(msg_id: str) -> str:
+#     massages_db.pop(msg_id)
+#     return f'Message with {msg_id} was deleted'
+#
+# @app.delete('/')
+# async def delete_all_msg() -> str:
+#     massages_db.clear()
+#     return "All messages deleted"
+
+#--------------------------------------------
+
+msg_db = []
+
+class Msg(BaseModel):
+    id: int = None
+    text: str
 
 @app.get("/")
-async def get_all_msg() -> dict:
-    return massages_db
+def get_all_msg() -> List[Msg]:
+    return msg_db
 
-@app.get("msg/{msg_id}") #
-async def get_msg(msg_id: str) -> dict:
-    return massages_db[msg_id]
+@app.get(path='/msg/{msg_id}')
+def get_msg(msg_id: int) -> Msg:
+    try:
+        return msg_db[msg_id]
+    except IndexError:
+        raise HTTPException(status_code=404, detail="Message not found")
 
-@app.post('msg')
-async def create_msg(msg: str) -> str:
-    current_index = str(int(max(massages_db, key=int)) +1 )
-    massages_db[current_index] = msg
-    return 'Massage created!'
+@app.post('/msg')
+def create_msg(msg: Msg) -> str:
+    msg.id = len(msg_db)
+    msg_db.append(msg)
+    return f'Message created'
 
-@app.put('msg/{msg_id}')
-async def update_msg(msg_id: str, msg: str) -> str:
-    massages_db[msg_id] = msg
-    return 'Massage update'
+@app.put('/msg/{msg_id}')
+def update_msg(msg_id: int, msg: str = Body()) -> str:
+    try:
+        edit_msg = msg_db[msg_id]
+        edit_msg.text = msg
+        return f'Message updated'
+    except IndexError:
+        raise HTTPException(status_code=404, detail="Message not found")
 
 @app.delete('/msg/{msg_id}')
-async def delete_msg(msg_id: str) -> str:
-    massages_db.pop(msg_id)
-    return f'Message with {msg_id} was deleted'
+def delete_msg(msg_id: int) -> str:
+    try:
+        msg_db.pop(msg_id)
+        return f'Message ID={msg_id} deleted'
+    except IndexError:
+        raise HTTPException(status_code=404, detail="Message not found")
 
 @app.delete('/')
-async def delete_all_msg() -> str:
-    massages_db.clear()
-    return "All messages deleted"
-
-
-
-
+def kill_msg_all() -> str:
+    msg_db.clear()
+    return "All message deleted"
 
 
 
