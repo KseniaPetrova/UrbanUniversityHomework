@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from homework.module17.homework.app.router import user, task
+from homework.module17.homework.app.models import User, Task
+from sqlalchemy.schema import CreateTable
 
 
 app = FastAPI()
@@ -13,7 +15,8 @@ async def welcome():
 app.include_router(user.router)
 app.include_router(task.router)
 
-
+print(CreateTable(User.__table__))
+print(CreateTable(Task.__table__))
 
 
 
