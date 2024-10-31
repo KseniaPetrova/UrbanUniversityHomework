@@ -19,4 +19,3 @@ class Product(Base):
 
     category = relationship('Category', back_populates='products')
 
-print(CreateTable(Product.__table__))
