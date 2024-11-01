@@ -10,6 +10,8 @@ app = FastAPI()
 # находясь в дериктории UrbanUniversityHomework\homework\module17\homework>
 # alembic init app/migrations
 # alembic revision --autogenerate -m "Initial migration"
+# alembic -c homework/module17/homework/alembic.ini revision --autogenerate -m "Initial migration"
+
 
 @app.get("/")
 async def welcome():
