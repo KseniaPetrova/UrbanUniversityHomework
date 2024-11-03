@@ -6,6 +6,7 @@ from sqlalchemy.schema import CreateTable
 
 app = FastAPI()
 # uvicorn homework.module17.homework.app.main:app
+# cd homework/module17/homework
 # uvicorn app.main:app
 # 127.0.0.1:8000/docs
 # находясь в дериктории UrbanUniversityHomework\homework\module17\homework>
