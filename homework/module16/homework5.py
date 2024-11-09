@@ -11,7 +11,7 @@ from fastapi.templating import Jinja2Templates
 import os
 
 app = FastAPI()
-templates = Jinja2Templates(directory=os.path.join("homework", "module16", "templates"))
+templates = Jinja2Templates(directory=os.path.join("homework.txt", "module16", "templates"))
 
 users: list = []
 
@@ -65,7 +65,7 @@ async def delete_user(user_id: int) -> User:
     raise HTTPException(status_code=404, detail="User was not found")
 
 
-# uvicorn homework.module16.homework5:app
+# uvicorn homework.txt.module16.homework5:app
 # 127.0.0.1:8000/docs
 
 

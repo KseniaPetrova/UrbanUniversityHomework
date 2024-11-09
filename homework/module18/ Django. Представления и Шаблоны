@@ -1,0 +1,11 @@
+cd homework/module18/mysite
+Запустите сервер python manage.py runserver
+Откройте в вашем браузере http://127.0.0.1:8000/
+Основные теги https://uguide.ru/tablica-osnovnykh-tegov-html-s-primerami
+
+создание приложения python manage.py startapp example
+создание бд python manage.py migrate
+
+добавлять в бд свои модели python manage.py makemigrations после должна быть команда python manage.py migrate
+
+

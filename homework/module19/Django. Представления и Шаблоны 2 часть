@@ -1,0 +1,41 @@
+cd homework/module19/djangoProject
+создать джанго проект django-admin startproject djangoProject
+Запустите сервер python manage.py runserver
+Откройте в вашем браузере http://127.0.0.1:8000/
+Основные теги https://uguide.ru/tablica-osnovnykh-tegov-html-s-primerami
+
+cd djangoProject
+создание приложения python manage.py startapp appDjango
+создание бд python manage.py migrate
+
+добавлять в бд свои модели python manage.py makemigrations после должна быть команда python manage.py migrate
+ ~~~~~~~~~~БД~~~~~~~~~~
+консоль QuerySet запросы в БД python manage.py shell
+импортируем модели from appDjango.models import Author
+запрос на просмотр всех авторов Author.objects.all()
+создать объект в БД Author.objects.create(name='New author', bio='test')
+фильтрация Author.objects.filter(bio='')
+внесение изменений Author.objects.filter(bio='') update(bio='qweq')
+количество объектов Author.objects.count()
+достать объект и записать в переменную a = Author.objects.get(id=12)
+удалить то что было в переменнолй a.delete()
+
+
+создание админа только после миграции
+python manage.py createsuperuser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LANGUAGE_CODE = 'en-us'

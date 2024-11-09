@@ -5,14 +5,14 @@ from sqlalchemy.schema import CreateTable
 
 
 app = FastAPI()
-# uvicorn homework.module17.homework.app.main:app
-# cd homework/module17/homework
+# uvicorn homework.txt.module17.homework.txt.app.main:app
+# cd homework.txt/module17/homework.txt
 # uvicorn app.main:app
 # 127.0.0.1:8000/docs
-# находясь в дериктории UrbanUniversityHomework\homework\module17\homework>
+# находясь в дериктории UrbanUniversityHomework\homework.txt\module17\homework.txt>
 # alembic init app/migrations
 # alembic revision --autogenerate -m "Initial migration"
-# alembic -c homework/module17/homework/alembic.ini revision --autogenerate -m "Initial migration"
+# alembic -c homework.txt/module17/homework.txt/alembic.ini revision --autogenerate -m "Initial migration"
 
 
 @app.get("/")

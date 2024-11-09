@@ -1,21 +1,41 @@
-from fastapi import FastAPI
-app = FastAPI()
 
-@app.get("/")
-async def get_main_page() -> str:
-    return "Главная страница"
+def funk(a: str):
+    info = {}
+    Buyer = [1, 2, 3, 4, 5]
+    if a == 1 or 2:
+            if a == 2:
+                # # Обработка данных формы
+                # username = form.cleaned_data['username']
+                # password = form.cleaned_data['password']
+                # repeat_password = form.cleaned_data['repeat_password']
+                # age = form.cleaned_data['age']
 
-@app.get("/user/admin")
-async def get_admin_page() -> str:
-    return "Вы вошли как администратор"
+                if a != 2:
+                    info['error'] = 'Пароли не совпадают'
+                else:
+                    user_exists = False
+                    # Перебираем всех покупателей и проверяем их имена
+                    for buyer in Buyer:
+                        if buyer == a:
+                            user_exists = True
+                            break  # Выходим из цикла, если нашли совпадение
 
-@app.get("/user/{user_id}")
-async def get_user_id(user_id: int) -> str:
-    return f'Вы вошли как пользователь № {user_id}'
+                    if user_exists:
+                        info['error'] = 'Пользователь уже существует'
+                    else:
+                        # Создаем нового покупателя
+                        Buyer.append('new Buyer')  # баланс можно установить по умолчанию
+                        info['message'] = f"Приветствуем, {username}!"
 
-@app.get("/user")
-async def get_info_user(username: str, age: int) -> str:
-    return f'Информация о пользователе. Имя: {username}, Возраст: {age}'
+            else:
+                info['error'] = 'Пожалуйста, исправьте ошибки в форме.'
+    info['form'] = "первый иф"
+    return info, Buyer
 
 
-# Запуск сервера python3 -m uvicorn main:app
+print(funk(2))
+
+
+
+
+

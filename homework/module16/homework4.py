@@ -71,7 +71,7 @@ async def delete_user(user_id: int) -> User:
     raise HTTPException(status_code=404, detail="User was not found")
 
 
-# uvicorn homework.module16.homework4:app
+# uvicorn homework.txt.module16.homework4:app
 # 127.0.0.1:8000/docs
 
 

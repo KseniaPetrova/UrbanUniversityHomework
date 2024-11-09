@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Site{%  endblock %}</title>
+    <link rel = 'stylesheet' type="text/css" href = '{% static "style.css" %}'>
+</head>
+<body>
+    <h1>Огромный текст</h1>
+    <h2>Большой текст</h2>
+    <h3>Не такой большой текст</h3>
+    <p>Абзац {{ text }}</p>
+    <p>Абзац второго текста</p>
+    <button>Кнопка</button>
+    <a href="vk.com">Я ссылка</a> <!-- href="#" так выглядит заглушка в коде  -->
+    <ul>
+        <li>Список 1</li>
+        <li>Список 2</li>
+        <li>Список 3</li>
+    </ul>
+    {% for i in list1 %}
+        <p>{{ i| upper }}</p>
+    {% endfor %}
+    {% if len_list < 4 %}
+        <p>OK</p>
+    {% else %}
+        <p>Not OK</p>
+    {% endif %}
+    {% include 'i.html' %}
+</body>
+</html>

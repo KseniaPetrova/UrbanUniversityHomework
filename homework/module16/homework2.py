@@ -36,7 +36,7 @@ async def get_info_user(username: Annotated[str, Path(min_length=5, max_length=2
     return f'Информация о пользователе. Имя: {username}, Возраст: {age}'
 
 
-# python3 -m uvicorn homework.module16.homework2:app
+# python3 -m uvicorn homework.txt.module16.homework2:app
 
 
 

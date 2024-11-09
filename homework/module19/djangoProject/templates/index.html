@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    {% for author in Authors %}
+        <h1>{{ author.name|title }}</h1>
+        <p>{{ author.bio }}</p>
+    {% endfor %}
+</body>
+</html>

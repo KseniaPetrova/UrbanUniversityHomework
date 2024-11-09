@@ -28,7 +28,7 @@ async def delete_user(user_id: str) -> str:
     return f'User {user_id} has been deleted'
 
 
-# uvicorn homework.module16.homework3:app
+# uvicorn homework.txt.module16.homework3:app
 # 127.0.0.1:8000/docs
 
 
