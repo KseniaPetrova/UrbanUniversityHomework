@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import Category, News
+from .models import Category, News, Post
 # Register your models here.
 
+
+#-----------------МОДЕЛИ ДЛЯ АДМИНИСТРИРОВАНИЯ----------------------
 #АДМИНКА ДЛЯ МОДЕЛИ Category
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -30,8 +32,8 @@ class NewsAdmin(admin.ModelAdmin):
     readonly_fields = ('create_at', 'update_at')
 
 
-
-
+#-----------------ПАГИНАЦИЯ----------------------
+admin.site.register(Post)
 
 
 

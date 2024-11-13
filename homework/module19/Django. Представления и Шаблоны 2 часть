@@ -1,5 +1,5 @@
 cd homework/module19/djangoProject
-создать джанго проект django-admin startproject djangoProject
+создать джанго проект django-admin startproject djangoProjectDBMS
 Запустите сервер python manage.py runserver
 Откройте в вашем браузере http://127.0.0.1:8000/
 Основные теги https://uguide.ru/tablica-osnovnykh-tegov-html-s-primerami
