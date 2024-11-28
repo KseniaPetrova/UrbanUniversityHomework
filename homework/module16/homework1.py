@@ -45,8 +45,8 @@ async def get_info_user(username: str, age: int) -> str:
     return f'Информация о пользователе. Имя: {username}, Возраст: {age}'
 
 
-# Запуск сервера python3 -m uvicorn main:app
-# Запуск сервера python3 -m uvicorn homework.txt.module16.homework1:app
+# Запуск сервера uvicorn main:app
+# Запуск сервера uvicorn homework.module16.homework1:app
 #
 
 

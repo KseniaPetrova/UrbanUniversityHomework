@@ -119,5 +119,5 @@ def kill_msg_all() -> str:
     return "All message deleted"
 
 
-
+# uvicorn homework.module16.likciya:app
 

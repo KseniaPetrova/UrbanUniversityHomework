@@ -84,7 +84,7 @@ class News(models.Model):
         ordering = ['-create_at'] # Сортировка по дпте создания в обратном порядке
 
 
-#-----------------ПЛГИНАЦИЯ----------------------
+#-----------------ПАГИНАЦИЯ----------------------
 
 class Post(models.Model):
     title = models.CharField(max_length=50)

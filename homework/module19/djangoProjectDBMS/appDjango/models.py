@@ -38,4 +38,4 @@ class Game(models.Model):
         return self.title
 
     class Meta:
-            db_table = 'game'
+        db_table = 'game'
